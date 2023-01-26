@@ -2,16 +2,11 @@
 
 namespace App\Services;
 
-use App\Services\BaseService;
+use App\Services\CRUDBaseService;
 use App\Repositories\ProductRepository;
 
-class ProductService extends BaseService
+class ProductService extends CRUDBaseService
 {
-    /**
-     * ProductService Construct
-     *
-     * @param ProductRepository $productRepository
-     */
     public function __construct(ProductRepository $productRepository)
     {
         $this->repository = $productRepository;
