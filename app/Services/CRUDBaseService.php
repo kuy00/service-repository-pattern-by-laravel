@@ -2,15 +2,38 @@
 
 namespace App\Services;
 
-class BaseService
+use App\Repositories\BaseRepository;
+
+class CRUDBaseService
 {
     /**
-     * @var ProductRepository
+     * @var BaseRepository
      */
     protected $repository;
 
     /**
-     * BaseService Get All Data.
+     * Get the BaseRepository instance.
+     *
+     * @return App\Repositories\BaseRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the BaseRepository instance.
+     *
+     * @param App\Repositories\BaseRepository $repository
+     * @return void
+     */
+    public function setRepository(BaseRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Get all data.
      *
      * @param array|null $relations
      * @return Illuminate\Database\Eloquent\Collection
@@ -21,7 +44,7 @@ class BaseService
     }
 
     /**
-     * BaseService Get All Data By Page.
+     * Get all data with pagination.
      *
      * @param int|20 $perPage
      * @param array|null $relations
@@ -33,10 +56,10 @@ class BaseService
     }
 
     /**
-     * BaseService Get Data By Id.
+     * Get data by id.
      *
-     * @param string id
-     * @return App\Models
+     * @param string $id
+     * @return Illuminate\Database\Eloquent\Model
      */
     public function getById($id)
     {
@@ -44,10 +67,10 @@ class BaseService
     }
 
     /**
-     * BaseService Create For Request Data.
+     * Generate request data.
      *
      * @param array|null $datas
-     * @return App\Models
+     * @return Illuminate\Database\Eloquent\Model
      */
     public function create($datas = null)
     {
