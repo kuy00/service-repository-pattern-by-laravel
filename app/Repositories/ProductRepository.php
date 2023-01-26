@@ -3,29 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use App\Repositories\BaseRepository;
 
-class ProductRepository
+class ProductRepository extends BaseRepository
 {
-    private $product;
-
     public function __construct(Product $product)
     {
-        $this->product = $product;
-    }
-
-    public function getAll($relations = [])
-    {
-        return $this->product->with($relations)->get();
-    }
-
-    public function getPaginate($perPage = 20, $relations = [])
-    {
-        return $this->product->with($relations)->paginate($perPage);
-    }
-
-    public function getById($id)
-    {
-        return $this->product->find($id);
+        $this->model = $product;
     }
 
     public function create($datas = [])
