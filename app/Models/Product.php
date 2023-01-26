@@ -25,7 +25,7 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function variants(): HasMany
+    public function variants()
     {
         return $this->hasMany(Variant::class, 'product_id', 'id');
     }

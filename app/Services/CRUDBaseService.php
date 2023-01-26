@@ -69,11 +69,11 @@ class CRUDBaseService
     /**
      * Generate request data.
      *
-     * @param array|null $datas
+     * @param array|null $data
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function create($datas = null)
+    public function create($data = null)
     {
-        return $this->repository->create($datas);
+        return $this->repository->create($data);
     }
 }

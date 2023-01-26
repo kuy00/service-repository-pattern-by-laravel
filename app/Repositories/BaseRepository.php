@@ -68,9 +68,12 @@ class BaseRepository
 
     /**
      * Generate data into the model.
+     *
+     * @param array $data
+     * @return Illuminate\Database\Eloquent\Model
      */
-    public function create($datas = [])
+    public function create($data = [])
     {
-        return $this->model->create($datas);
+        return $this->model->create($data);
     }
 }
