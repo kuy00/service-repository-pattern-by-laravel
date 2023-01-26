@@ -27,6 +27,9 @@ class VariantRequest extends FormRequest
             case 'POST':
                 return $this->postRules();
 
+            case 'PUT':
+                return $this->putRules();
+
             default:
                 # code...
                 break;
@@ -34,6 +37,15 @@ class VariantRequest extends FormRequest
     }
 
     private function postRules()
+    {
+        return [
+            'product_id' => 'required|integer',
+            'name' => 'required|string',
+            'price' => 'required|integer',
+        ];
+    }
+
+    private function putRules()
     {
         return [
             'name' => 'required|string',

@@ -3,17 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\VariantService;
+use App\Http\Resources\VariantResource;
+use App\Http\Requests\VariantRequest;
 
 class VariantController extends Controller
 {
+    private $variantService;
+
+    public function __construct(VariantService $variantService)
+    {
+        $this->variantService = $variantService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->input('perPage', 20);
+        $relations = ['product'];
+        $variants = $this->variantService->getPaginate($perPage, $relations);
+
+        return VariantResource::collection($variants);
     }
 
     /**
@@ -32,9 +46,10 @@ class VariantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VariantRequest $request)
     {
-        //
+        $validated = $request->validated();
+        return $this->variantService->create($validated);
     }
 
     /**
@@ -45,7 +60,14 @@ class VariantController extends Controller
      */
     public function show($id)
     {
-        //
+        $relations = ['product'];
+        $variant = $this->variantService->getById($id, $relations);
+
+        if ($variant) {
+            return VariantResource::make($variant);
+        } else {
+            return new \stdClass();
+        }
     }
 
     /**
@@ -66,9 +88,10 @@ class VariantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VariantRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+        return $this->variantService->update($id, $validated);
     }
 
     /**
@@ -79,6 +102,6 @@ class VariantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->variantService->delete($id);
     }
 }

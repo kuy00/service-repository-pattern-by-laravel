@@ -17,6 +17,7 @@ class VariantResource extends JsonResource
         return [
             'name' => $this->name,
             'price' => $this->price,
+            'product' => ProductResource::make($this->whenLoaded('product')),
         ];
     }
 }
