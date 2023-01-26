@@ -40,7 +40,7 @@ class CRUDBaseService
      */
     public function getAll($relations = null)
     {
-        return $this->repository->getAll();
+        return $this->repository->getAll($relations);
     }
 
     /**
@@ -52,18 +52,19 @@ class CRUDBaseService
      */
     public function getPaginate($perPage = 20, $relations = null)
     {
-        return $this->repository->getPaginate($perPage);
+        return $this->repository->getPaginate($perPage, $relations);
     }
 
     /**
      * Get data by id.
      *
      * @param string $id
+     * @param array|null $relations
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function getById($id)
+    public function getById($id, $relations = null)
     {
-        return $this->repository->getById($id);
+        return $this->repository->getById($id, $relations);
     }
 
     /**

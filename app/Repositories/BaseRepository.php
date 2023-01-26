@@ -47,7 +47,7 @@ class BaseRepository
      * Get data from model using pagination.
      *
      * @param int $perPage = 20
-     * @param array $relations = []
+     * @param array $relations
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginate($perPage = 20, $relations = [])
@@ -59,11 +59,12 @@ class BaseRepository
      * Get the model data by id.
      *
      * @param string $id
+     * @param array $relations
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function getById($id)
+    public function getById($id, $relations = [])
     {
-        return $this->model->find($id);
+        return $this->model->with($relations)->find($id);
     }
 
     /**

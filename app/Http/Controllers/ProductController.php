@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 20);
-        $relations = ['variant'];
+        $relations = ['variants'];
         $products = $this->productService->getPaginate($perPage, $relations);
 
         return ProductResource::collection($products);
@@ -62,7 +62,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = $this->productService->getById($id);
+        $relations = ['variants'];
+        $product = $this->productService->getById($id, $relations);
 
         if ($product) {
             return ProductResource::make($product);
