@@ -11,9 +11,4 @@ class ProductRepository extends BaseRepository
     {
         $this->model = $product;
     }
-
-    public function create($datas = [])
-    {
-        return $this->product->create($datas);
-    }
 }
