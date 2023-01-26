@@ -16,7 +16,18 @@ class Variant extends Model
      * @var array
      */
     protected $fillable = [
+        'product_id',
         'name',
         'price',
     ];
+
+    /**
+     * Get the product that owns the Variant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }
