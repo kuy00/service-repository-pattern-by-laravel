@@ -11,4 +11,15 @@ class VariantRepository extends BaseRepository
     {
         $this->model = $variant;
     }
+
+    /**
+     * Delete data into the model by product id.
+     *
+     * @param string $productId
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function deleteByProductId($productId)
+    {
+        return $this->model->where('product_id', $productId)->delete();
+    }
 }

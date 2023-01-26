@@ -27,6 +27,9 @@ class ProductRequest extends FormRequest
             case 'POST':
                 return $this->postRules();
 
+            case 'PUT':
+                return $this->putRules();
+
             default:
                 # code...
                 break;
@@ -41,6 +44,14 @@ class ProductRequest extends FormRequest
             'variants' => 'required',
             'variants.*.name' => 'required|string',
             'variants.*.price' => 'required|integer',
+        ];
+    }
+
+    private function putRules()
+    {
+        return [
+            'name' => 'required|string',
+            'description' => 'string',
         ];
     }
 }

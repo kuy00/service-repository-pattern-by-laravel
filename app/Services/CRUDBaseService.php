@@ -77,4 +77,27 @@ class CRUDBaseService
     {
         return $this->repository->create($data);
     }
+
+    /**
+     * Update with request data.
+     *
+     * @param string $id
+     * @param array|null $data
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function update($id, $data = null)
+    {
+        return $this->repository->update($id, $data);
+    }
+
+    /**
+     * Delete with request data.
+     *
+     * @param string $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function delete($id)
+    {
+        return $this->repository->delete($id);
+    }
 }

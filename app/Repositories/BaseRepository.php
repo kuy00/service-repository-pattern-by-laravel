@@ -77,4 +77,33 @@ class BaseRepository
     {
         return $this->model->create($data);
     }
+
+    /**
+     * Update data into the model.
+     *
+     * @param string $id
+     * @param array $data
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function update($id, $data = [])
+    {
+        $model = $this->model->find($id);
+        $model->update($data);
+
+        return $model;
+    }
+
+    /**
+     * Delete data into the model.
+     *
+     * @param string $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function delete($id)
+    {
+        $model = $this->model->find($id);
+        $model->delete();
+
+        return $model;
+    }
 }
