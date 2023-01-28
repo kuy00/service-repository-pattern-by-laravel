@@ -19,6 +19,7 @@ class Variant extends Model
         'product_id',
         'name',
         'price',
+        'code',
     ];
 
     /**
