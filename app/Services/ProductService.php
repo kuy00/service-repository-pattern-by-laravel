@@ -34,9 +34,8 @@ class ProductService extends CRUDBaseService
             foreach ($data['variants'] as $key => $value) {
                 $value['product_id'] = $product->id;
                 $variant = $this->variantRepository->create($value);
-
-                $product['variants'][] = $variant;
             }
+            $product->variants;
 
             DB::commit();
         } catch (\Throwable $th) {
