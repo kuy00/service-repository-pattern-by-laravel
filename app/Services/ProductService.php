@@ -33,21 +33,14 @@ class ProductService extends CRUDBaseService
             $product = parent::create($data);
             foreach ($data['variants'] as $key => $value) {
                 $value['product_id'] = $product->id;
-                $variant = $this->variantService->create($value);
-
-                if ($variant) {
-                    DB::commit();
-                } else {
-                    DB::rollback();
-                    $product = [];
-                }
+                $this->variantService->create($value);
             }
             $product->variants;
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
-            $product = [];
+            throw new \Exception('상품 등록 실패');
         }
 
         return $product;
@@ -67,17 +60,12 @@ class ProductService extends CRUDBaseService
             DB::beginTransaction();
 
             $product = parent::delete($id);
-            $variant = $this->variantService->deleteByProductId($id);
+            $this->variantService->deleteByProductId($id);
 
-            if ($variant) {
-                DB::commit();
-            } else {
-                DB::rollback();
-                $product = [];
-            }
+            DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
-            $product = [];
+            throw new \Exception('상품 삭제 실패');
         }
 
         return $product;

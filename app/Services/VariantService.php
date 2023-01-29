@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Services\CRUDBaseService;
 use App\Repositories\VariantRepository;
-use DB;
 
 class VariantService extends CRUDBaseService
 {
@@ -24,14 +23,10 @@ class VariantService extends CRUDBaseService
         $vairant = [];
 
         try {
-            DB::beginTransaction();
-
             $data['code'] = $data['code'] ?? $this->createCode();
             $vairant = $this->repository->create($data);
-
-            DB::commit();
         } catch (\Throwable $th) {
-            DB::rollback();
+            throw new \Exception('옵션 등록 실패');
         }
 
         return $vairant;
@@ -45,7 +40,15 @@ class VariantService extends CRUDBaseService
      */
     public function deleteByProductId($productId)
     {
-        return $this->repository->deleteByProductId($productId);
+        $vairant = [];
+
+        try {
+            $vairant = $this->repository->deleteByProductId($productId);
+        } catch (\Throwable $th) {
+            throw new \Exception('옵션 삭제 실패');
+        }
+
+        return $vairant;
     }
 
     /**

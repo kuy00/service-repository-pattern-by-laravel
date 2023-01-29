@@ -49,8 +49,21 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $validated = $request->validated();
-        return $this->productService->create($validated);
+        $response = [
+            'result' => true,
+            'message' => '상품 등록 성공',
+            'data' => [],
+        ];
+
+        try {
+            $validated = $request->validated();
+            $response['data'] = $this->productService->create($validated);
+        } catch (\Throwable $th) {
+            $response['result'] = false;
+            $response['message'] = $th->getMessage();
+        }
+
+        return $response;
     }
 
     /**
@@ -103,6 +116,19 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        return $this->productService->delete($id);
+        $response = [
+            'result' => true,
+            'message' => '상품 삭제 성공',
+            'data' => [],
+        ];
+
+        try {
+            $response['data'] = $this->productService->delete($id);
+        } catch (\Throwable $th) {
+            $response['result'] = false;
+            $response['message'] = $th->getMessage();
+        }
+
+        return $response;
     }
 }

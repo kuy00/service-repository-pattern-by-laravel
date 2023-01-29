@@ -48,8 +48,21 @@ class VariantController extends Controller
      */
     public function store(VariantRequest $request)
     {
-        $validated = $request->validated();
-        return $this->variantService->create($validated);
+        $response = [
+            'result' => true,
+            'message' => '옵션 등록 성공',
+            'data' => [],
+        ];
+
+        try {
+            $validated = $request->validated();
+            $response['data'] = $this->variantService->create($validated);
+        } catch (\Throwable $th) {
+            $response['result'] = false;
+            $response['message'] = $th->getMessage();
+        }
+
+        return $response;
     }
 
     /**
@@ -102,6 +115,19 @@ class VariantController extends Controller
      */
     public function destroy($id)
     {
-        return $this->variantService->delete($id);
+        $response = [
+            'result' => true,
+            'message' => '옵션 삭제 성공',
+            'data' => [],
+        ];
+
+        try {
+            $response['data'] = $this->variantService->delete($id);
+        } catch (\Throwable $th) {
+            $response['result'] = false;
+            $response['message'] = $th->getMessage();
+        }
+
+        return $response;
     }
 }
