@@ -9,12 +9,12 @@ use DB;
 
 class ProductService extends CRUDBaseService
 {
-    private $variantRepository;
+    private $variantService;
 
-    public function __construct(ProductRepository $productRepository, VariantRepository $variantRepository)
+    public function __construct(ProductRepository $productRepository, VariantService $variantService)
     {
         $this->repository = $productRepository;
-        $this->variantRepository = $variantRepository;
+        $this->variantService = $variantService;
     }
 
     /**
@@ -33,7 +33,14 @@ class ProductService extends CRUDBaseService
             $product = parent::create($data);
             foreach ($data['variants'] as $key => $value) {
                 $value['product_id'] = $product->id;
-                $variant = $this->variantRepository->create($value);
+                $variant = $this->variantService->create($value);
+
+                if ($variant) {
+                    DB::commit();
+                } else {
+                    DB::rollback();
+                    $product = [];
+                }
             }
             $product->variants;
 
@@ -60,9 +67,14 @@ class ProductService extends CRUDBaseService
             DB::beginTransaction();
 
             $product = parent::delete($id);
-            $this->variantRepository->deleteByProductId($id);
+            $variant = $this->variantService->deleteByProductId($id);
 
-            DB::commit();
+            if ($variant) {
+                DB::commit();
+            } else {
+                DB::rollback();
+                $product = [];
+            }
         } catch (\Throwable $th) {
             DB::rollback();
             $product = [];
